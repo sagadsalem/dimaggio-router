@@ -35,3 +35,11 @@ func name(w http.ResponseWriter, r *http.Request, _ router.Params) {
 }
 
 ```
+
+## Named parameters
+
+<p>you can pass named parameters in the route by using the /$param format for example:</p>
+
+```go
+r.GET("/named/parameter/$name",handler)
+```
