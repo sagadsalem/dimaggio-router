@@ -20,9 +20,11 @@ type Param struct {
 type Params []Param
 
 type route struct {
-	Path   string
-	Method string
-	Handle Handle
+	RegexPath        string
+	RealPath         string
+	Method           string
+	Handle           Handle
+	IsNamedParameter bool
 }
 
 // Router serves http
@@ -33,13 +35,8 @@ type Router struct {
 
 // NewRouter creates instance of Router
 func New() *Router {
-	//s := false
-	//if len(slashMode) > 0 && len(slashMode) < 2 {
-	//	s = slashMode[0]
-	//}
 	return &Router{
 		handlers: make([]route, 0),
-		//SlashMode: s,
 	}
 }
 
@@ -47,9 +44,9 @@ func New() *Router {
 func (router *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	for _, route := range router.handlers {
 		if r.Method == route.Method {
-			matched, _ := regexp.MatchString(route.Path, r.URL.Path)
+			matched, _ := regexp.MatchString(route.RegexPath, r.URL.Path)
 			if matched {
-				route.Handle(w, r, Params{})
+				route.Handle(w, r, routeParams(route, r.URL.Path))
 				return
 			}
 		}
@@ -67,7 +64,6 @@ func (router *Router) GET(path string, handle Handle) {
 // POST sets post handle
 func (router *Router) POST(path string, handle Handle) {
 	router.handlers = append(router.handlers, addRoute("POST", path, handle))
-
 }
 
 // DELETE sets delete handle
@@ -80,30 +76,72 @@ func (router *Router) PUT(path string, handle Handle) {
 	router.handlers = append(router.handlers, addRoute("PUT", path, handle))
 }
 
+func (ps Params) GetByName(name string) (string, error) {
+	for _, p := range ps {
+		if p.Key == name {
+			return p.Value, nil
+		}
+	}
+	return "", fmt.Errorf("the parameter %v was not found in the request", name)
+}
+
+func (ps Params) GetByIndex(index int) (string, error) {
+	for i, p := range ps {
+		if i == index {
+			return p.Value, nil
+		}
+	}
+	return "", fmt.Errorf("the index %d was not found in the request", index)
+}
+
 /*
 * Helpers functions
 * addRoute function return a route with all the required fields
 * routePath function return the path in regex format for faster matching in the routing
  */
 func addRoute(method string, path string, handle Handle) route {
+	p, n := routePath(path)
 	return route{
-		Path:   routePath(path),
-		Method: method,
-		Handle: handle,
+		RegexPath:        p,
+		RealPath:         path,
+		Method:           method,
+		Handle:           handle,
+		IsNamedParameter: n,
 	}
 }
 
-func routePath(path string) string {
-	components := strings.Split(path, "/")[1:]
+func routePath(path string) (string, bool) {
 	p := ""
+	var isNamedParameter = false
 	var s []string
+
+	components := strings.Split(path, "/")[1:]
 	for _, c := range components {
 		if strings.Contains(c, "$") {
 			s = append(s, fmt.Sprint("/[a-zA-Z0-9]"))
+			isNamedParameter = true
 		} else {
 			s = append(s, fmt.Sprintf("/%v", c))
 		}
 	}
 	p = strings.Join(s, "+") + "+$"
-	return p
+	return p, isNamedParameter
+}
+
+func routeParams(route route, url string) Params {
+	if route.IsNamedParameter == true {
+		var params Params
+		realComponents := strings.Split(route.RealPath, "/")[1:]
+		urlComponents := strings.Split(url, "/")[1:]
+		for index, c := range realComponents {
+			if strings.Contains(c, "$") {
+				params = append(params, Param{
+					Key:   strings.Replace(c, "$", "", -1), // without the $ sign
+					Value: urlComponents[index],
+				})
+			}
+		}
+		return params
+	}
+	return Params{}
 }

@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+
 	r := router.New()
 	r.GET("/boo", boo)
 
@@ -32,9 +33,19 @@ func fooBar(w http.ResponseWriter, r *http.Request, _ router.Params) {
 		panic(err)
 	}
 }
-func name(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func name(w http.ResponseWriter, r *http.Request, ps router.Params) {
+	name, err := ps.GetByName("name")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	//index, err := ps.GetByIndex(0)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+
 	w.Header().Set("Content-Type", "application/json")
-	if _, err := w.Write([]byte(`{"message":"MYNAME"}`)); err != nil {
+	if _, err := w.Write([]byte(`{"message":"` + name + `"}`)); err != nil {
 		panic(err)
 	}
 }
@@ -52,9 +63,20 @@ func postNameAfter(w http.ResponseWriter, r *http.Request, _ router.Params) {
 	}
 }
 
-func paramAfter(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func paramAfter(w http.ResponseWriter, r *http.Request, ps router.Params) {
+
+	param, err := ps.GetByName("param")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	name, err := ps.GetByName("name")
+	if err != nil {
+		panic(err.Error())
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	if _, err := w.Write([]byte(`{"message":"MYPARAMAFTER"}`)); err != nil {
+	if _, err := w.Write([]byte(`{"message":"` + name + " " + param + `"}`)); err != nil {
 		panic(err)
 	}
 }
