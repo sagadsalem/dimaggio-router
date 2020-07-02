@@ -45,3 +45,27 @@ r := router.New()
 r.GET("/named/parameter/$name",handler)
 log.Fatal(http.ListenAndServe(":8080", r))
 ```
+
+## Get parameters value
+
+<p>so you can get parameters either by name or by index see the example below:</p>
+
+```go
+func paramAfter(w http.ResponseWriter, r *http.Request, ps router.Params) {
+
+	param, err := ps.GetByName("param")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	name, err := ps.GetByName("name")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if _, err := w.Write([]byte(`{"message":"` + name + " - " + param + `"}`)); err != nil {
+		panic(err)
+	}
+}
+```
