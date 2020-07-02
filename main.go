@@ -15,7 +15,7 @@ func main() {
 
 	r.GET("/get/$name/after", getNameAfter)
 	r.POST("/get/$name/after", postNameAfter)
-	
+
 	r.GET("/get/$name/$param", paramAfter)
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
