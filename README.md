@@ -41,5 +41,7 @@ func name(w http.ResponseWriter, r *http.Request, _ router.Params) {
 <p>you can pass named parameters in the route by using the /$param format for example:</p>
 
 ```go
+r := router.New()
 r.GET("/named/parameter/$name",handler)
+log.Fatal(http.ListenAndServe(":8080", r))
 ```
