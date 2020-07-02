@@ -23,14 +23,12 @@ func main() {
 }
 
 func boo(w http.ResponseWriter, r *http.Request, _ router.Params) {
-	w.Header().Set("Content-Type", "application/json")
 	if _, err := w.Write([]byte(`{"message":"Boo Function"}`)); err != nil {
 		panic(err)
 	}
 }
 
 func name(w http.ResponseWriter, r *http.Request, _ router.Params) {
-	w.Header().Set("Content-Type", "application/json")
 	if _, err := w.Write([]byte(`{"message":"NAME Function"}`)); err != nil {
 		panic(err)
 	}
