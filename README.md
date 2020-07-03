@@ -15,10 +15,7 @@ import (
 
 func main() {
 	r := router.New()
-
 	r.GET("/boo", boo)
-	r.GET("/get/$name", name)
-
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
@@ -28,22 +25,25 @@ func boo(w http.ResponseWriter, _ *http.Request, _ router.Params) {
 	}
 }
 
-func name(w http.ResponseWriter, _ *http.Request, _ router.Params) {
-	if _, err := w.Write([]byte(`{"message":"NAME Function"}`)); err != nil {
-		panic(err)
-	}
-}
-
 ```
 
 ## Named parameters
 
-<p>you can pass named parameters in the route by using the /$param format for example:</p>
+<p>you can pass named parameters in the route by using the $param format for example:</p>
 
 ```go
-r := router.New()
-r.GET("/named/parameter/$name",handler)
-log.Fatal(http.ListenAndServe(":8080", r))
+package main
+
+import (
+	router "github.com/sagadsalem/dimaggio-router"
+	"log"
+	"net/http"
+)
+func main() {
+    r := router.New()
+    r.GET("/get/user/$id",handler)
+    log.Fatal(http.ListenAndServe(":8080", r))
+}
 ```
 
 ## Get parameters value
@@ -51,21 +51,21 @@ log.Fatal(http.ListenAndServe(":8080", r))
 <p>so you can get parameters either by name or by index see the example below:</p>
 
 ```go
-func main() {
- r := router.New()
- r.GET("/named/$param/$name",handler)
- log.Fatal(http.ListenAndServe(":8080", r))
-}
+package main
 
+import (
+	router "github.com/sagadsalem/dimaggio-router"
+	"log"
+	"net/http"
+)
 
-func handler(w http.ResponseWriter, r *http.Request, ps router.Params) {
-
-	param, err := ps.GetByIndex(0)
+func handler(w http.ResponseWriter, r *http.Request, dp router.Params) {
+	param, err := dp.GetByIndex(0)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	name, err := ps.GetByName("name")
+	name, err := dp.GetByName("name")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -82,14 +82,19 @@ func handler(w http.ResponseWriter, r *http.Request, ps router.Params) {
 <p>also there are helper function to get the values of query string parameter see the example below:</p>
 
 ```go
+package main
+
+import (
+    "net/http"
+	router "github.com/sagadsalem/dimaggio-router"
+)
+
 func main() {
- r,_ := http.NewRequest("GET","/querystring?name=sagad",nil)
+    r,_ := http.NewRequest("GET","/querystring?name=sagad",nil)
 }
 
-
-func handler(w http.ResponseWriter, r *http.Request, ps router.Params) {
-
-	name, err := ps.GetQuery(r,"name")
+func handler(w http.ResponseWriter, r *http.Request, dp router.Params) {
+	name, err := dp.GetQuery(r,"name")
 	if err != nil {
 		panic(err.Error())
 	}
