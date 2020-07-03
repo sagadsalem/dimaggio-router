@@ -1,6 +1,9 @@
 package dimaggioRouter
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 // Param is a single URL parameter, consisting of a key and a value.
 type Param struct {
@@ -27,4 +30,14 @@ func (ps Params) GetByIndex(index int) (string, error) {
 		}
 	}
 	return "", fmt.Errorf("the index %d was not found in the request", index)
+}
+
+func (ps Params) GetQuery(req *http.Request, name string) (string, error) {
+	values, ok := req.URL.Query()[name]
+
+	if !ok || len(values[0]) < 1 {
+		return "", fmt.Errorf("url param '%v' is missing", name)
+	}
+
+	return values[0], nil
 }
