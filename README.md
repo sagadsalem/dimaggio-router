@@ -1,6 +1,6 @@
 # Dimaggio-router
 
-<p>HTTP request router that build using go for some features not exists in net/http package mux server</p>
+> HTTP request router that builds using go for some features does not exist in net/http package mux server
 
 ## Installation
 ```shell script
@@ -35,7 +35,7 @@ func boo(w http.ResponseWriter, _ *http.Request, _ router.Params) {
 
 ## Named parameters
 
-<p>you can pass named parameters in the route by using the $param format for example:</p>
+you can pass named parameters in the route by using the [$param] format for example:
 
 ```go
 package main
@@ -54,7 +54,7 @@ func main() {
 
 ## Get parameters value
 
-<p>so you can get parameters either by name or by index see the example below:</p>
+so you can get parameters either by name or by index see the example below:
 
 ```go
 package main
@@ -85,7 +85,7 @@ func handler(w http.ResponseWriter, r *http.Request, dp router.Params) {
 
 ## Get Query String value
 
-<p>also there are helper function to get the values of query string parameter see the example below:</p>
+also, there is a helper function to get the values of the query string parameter to see the example below:
 
 ```go
 package main
