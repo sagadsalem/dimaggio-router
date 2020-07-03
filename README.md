@@ -34,9 +34,10 @@ func boo(w http.ResponseWriter, _ *http.Request, _ router.Params) {
 
 ```
 
-## Named parameters
 
-you can pass named parameters in the route by using the [$param] format for example:
+## Named parameter
+
+you can pass named parameters in the route by using the [$param] format and you can get parameters either by name or by index see the example below:
 
 ```go
 package main
@@ -46,25 +47,12 @@ import (
 	"log"
 	"net/http"
 )
+
 func main() {
     r := router.New()
     r.GET("/get/user/$id",handler)
     log.Fatal(http.ListenAndServe(":8080", r))
 }
-```
-
-## Get parameters value
-
-so you can get parameters either by name or by index see the example below:
-
-```go
-package main
-
-import (
-	router "github.com/sagadsalem/dimaggio-router"
-	"log"
-	"net/http"
-)
 
 func handler(w http.ResponseWriter, r *http.Request, dp router.Params) {
 	param, err := dp.GetByIndex(0)
@@ -72,19 +60,19 @@ func handler(w http.ResponseWriter, r *http.Request, dp router.Params) {
 		panic(err.Error())
 	}
 
-	name, err := dp.GetByName("name")
+	id, err := dp.GetByName("id")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	if _, err := w.Write([]byte(`{"message":"` + name + " - " + param + `"}`)); err != nil {
+	if _, err := w.Write([]byte(`{"message":"` + id + " - " + param + `"}`)); err != nil {
 		panic(err)
 	}
 }
 ```
 
-## Get Query String value
+## Query String
 
 also, there is a helper function to get the values of the query string parameter to see the example below:
 
@@ -115,8 +103,8 @@ func handler(w http.ResponseWriter, r *http.Request, dp router.Params) {
 
 ## TODO
 
-- [x] Get Named parameter
-- [x] Get Querystring parameter
+- [x] Named parameter
+- [x] Querystring parameter
 - [ ] Middleware
 - [ ] Route Group
 - [ ] Enable CORS
