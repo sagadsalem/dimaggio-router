@@ -1,4 +1,5 @@
-# Dimaggio-router
+# Dimaggio-router [![Build Status](https://api.travis-ci.org/sagadsalem/dimaggio-router.svg?branch=master&status=passed)](https://travis-ci.org/github/sagadsalem/dimaggio-router) 
+
 
 > HTTP request router that builds using go for some features does not exist in net/http package mux server
 
