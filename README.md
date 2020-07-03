@@ -76,3 +76,27 @@ func handler(w http.ResponseWriter, r *http.Request, ps router.Params) {
 	}
 }
 ```
+
+## Get Query String value
+
+<p>also there are helper function to get the values of query string parameter see the example below:</p>
+
+```go
+func main() {
+ r,_ := http.NewRequest("GET","/querystring?name=sagad",nil)
+}
+
+
+func handler(w http.ResponseWriter, r *http.Request, ps router.Params) {
+
+	name, err := ps.GetQuery(r,"name")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if _, err := w.Write([]byte(`{"message":"` + name + `"}`)); err != nil {
+		panic(err)
+	}
+}
+```
