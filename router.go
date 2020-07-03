@@ -5,6 +5,28 @@ import (
 	"regexp"
 )
 
+const GET = http.MethodGet
+const POST = http.MethodPost
+const DELETE = http.MethodDelete
+const PUT = http.MethodPut
+
+// Handle is a function that can be registered to a route to handle HTTP
+type Handle func(http.ResponseWriter, *http.Request, Params)
+
+type route struct {
+	RegexPath        string
+	RealPath         string
+	Method           string
+	Handle           Handle
+	IsNamedParameter bool
+}
+
+// Router serves http
+type Router struct {
+	handlers []route
+	//SlashMode bool
+}
+
 // NewRouter creates instance of Router
 func New() *Router {
 	return &Router{
@@ -13,37 +35,41 @@ func New() *Router {
 }
 
 // ServeHTTP is called for every connection
-func (router *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	for _, route := range router.handlers {
-		if r.Method == route.Method {
-			matched, _ := regexp.MatchString(route.RegexPath, r.URL.Path)
+func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	for _, route := range r.handlers {
+		if req.Method == route.Method {
+			matched, _ := regexp.MatchString(route.RegexPath, req.URL.Path)
 			if matched {
-				route.Handle(w, r, routeParams(route, r.URL.Path))
+				route.Handle(w, req, routeParams(route, req.URL.Path))
 				return
 			}
 		}
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(`{"error":"not found"}`))
+	http.NotFound(w, req)
 	return
 }
 
 // GET sets get handle
-func (router *Router) GET(path string, handle Handle) {
-	router.handlers = append(router.handlers, addRoute("GET", path, handle))
+func (r *Router) GET(path string, handle Handle) {
+	r.addRoute(GET, path, handle)
 }
 
 // POST sets post handle
-func (router *Router) POST(path string, handle Handle) {
-	router.handlers = append(router.handlers, addRoute("POST", path, handle))
+func (r *Router) POST(path string, handle Handle) {
+	r.addRoute(POST, path, handle)
 }
 
 // DELETE sets delete handle
-func (router *Router) DELETE(path string, handle Handle) {
-	router.handlers = append(router.handlers, addRoute("DELETE", path, handle))
+func (r *Router) DELETE(path string, handle Handle) {
+	r.addRoute(DELETE, path, handle)
 }
 
 // PUT sets put handle
-func (router *Router) PUT(path string, handle Handle) {
-	router.handlers = append(router.handlers, addRoute("PUT", path, handle))
+func (r *Router) PUT(path string, handle Handle) {
+	r.addRoute(PUT, path, handle)
+}
+
+// add route to our routes
+func (r *Router) addRoute(method, path string, handle Handle) {
+	r.handlers = append(r.handlers, addRoute(method, path, handle))
 }

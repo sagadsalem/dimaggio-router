@@ -2,6 +2,15 @@ package dimaggioRouter
 
 import "fmt"
 
+// Param is a single URL parameter, consisting of a key and a value.
+type Param struct {
+	Key   string
+	Value string
+}
+
+// Params is a Param-slice, as returned by the router.
+type Params []Param
+
 func (ps Params) GetByName(name string) (string, error) {
 	for _, p := range ps {
 		if p.Key == name {
