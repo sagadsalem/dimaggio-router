@@ -2,6 +2,12 @@
 
 <p>HTTP request router that build using go for some features not exists in net/http package mux server</p>
 
+## Installation
+```shell script
+go get -u github.com/sagadsalem/dimaggio-router
+```
+
+
 ## Usage
 
 ```go
