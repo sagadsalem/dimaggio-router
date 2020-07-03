@@ -8,7 +8,7 @@
 package main
 
 import (
-	"github.com/sagadsalem/dimaggio-router"
+	router "github.com/sagadsalem/dimaggio-router"
 	"log"
 	"net/http"
 )
