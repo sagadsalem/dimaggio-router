@@ -22,13 +22,13 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
-func boo(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func boo(w http.ResponseWriter, _ *http.Request, _ router.Params) {
 	if _, err := w.Write([]byte(`{"message":"Boo Function"}`)); err != nil {
 		panic(err)
 	}
 }
 
-func name(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func name(w http.ResponseWriter, _ *http.Request, _ router.Params) {
 	if _, err := w.Write([]byte(`{"message":"NAME Function"}`)); err != nil {
 		panic(err)
 	}
@@ -51,9 +51,16 @@ log.Fatal(http.ListenAndServe(":8080", r))
 <p>so you can get parameters either by name or by index see the example below:</p>
 
 ```go
-func paramAfter(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func main() {
+ r := router.New()
+ r.GET("/named/$param/$name",handler)
+ log.Fatal(http.ListenAndServe(":8080", r))
+}
 
-	param, err := ps.GetByName("param")
+
+func handler(w http.ResponseWriter, r *http.Request, ps router.Params) {
+
+	param, err := ps.GetByIndex(0)
 	if err != nil {
 		panic(err.Error())
 	}
