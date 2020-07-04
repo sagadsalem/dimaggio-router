@@ -1,8 +1,10 @@
 package dimaggioRouter
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
+	"strings"
 )
 
 // Handle is a function that can be registered to a route to handle HTTP
@@ -69,4 +71,22 @@ func (r *router) PUT(path string, handle Handle) {
 func (r *router) addRoute(method, path string, handle Handle) {
 	p, n := generateRegexAndParams(path)
 	r.routes = append(r.routes, route{RegexPath: p, RealPath: path, Method: method, Handle: handle, Params: n})
+}
+
+func generateRegexAndParams(path string) (string, Params) {
+	var s []string
+	var p Params
+
+	for index, c := range strings.Split(path, "/")[1:] {
+		if strings.Contains(c, "$") {
+			s = append(s, fmt.Sprint("/[a-zA-Z0-9]"))
+			p = append(p, Param{
+				Key:   strings.Replace(c, "$", "", -1),
+				Index: index,
+			})
+		} else {
+			s = append(s, fmt.Sprintf("/%v", c))
+		}
+	}
+	return fmt.Sprintf("%v+$", strings.Join(s, "+")), p
 }

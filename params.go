@@ -50,3 +50,4 @@ func (r *route) getParams(url string) {
 		r.Params[i].Value = requestURL[c.Index]
 	}
 }
+

@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bdb28f95-74d4-4b50-a043-79c5de038764" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper.go" beforeDir="false" afterPath="$PROJECT_DIR$/helper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params.go" beforeDir="false" afterPath="$PROJECT_DIR$/params.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/params_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/router_test.go" afterDir="false" />
-    </list>
+    <list default="true" id="bdb28f95-74d4-4b50-a043-79c5de038764" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,22 +170,22 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="335" y="34" key="#go_test_github.com/sagadsalem/dimaggio-router/0.0.1280.800@0.0.1280.800" timestamp="1593787549981" />
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom" timestamp="1593895818197">
+    <state width="1238" height="212" key="GridCell.Tab.0.bottom" timestamp="1593896566723">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1593895818197" />
-    <state width="1238" height="212" key="GridCell.Tab.0.center" timestamp="1593895818196">
+    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1593896566723" />
+    <state width="1238" height="212" key="GridCell.Tab.0.center" timestamp="1593896566722">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1593895818196" />
-    <state width="1238" height="212" key="GridCell.Tab.0.left" timestamp="1593895818196">
+    <state width="1238" height="212" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1593896566722" />
+    <state width="1238" height="212" key="GridCell.Tab.0.left" timestamp="1593896566721">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1593895818196" />
-    <state width="1238" height="212" key="GridCell.Tab.0.right" timestamp="1593895818197">
+    <state width="1238" height="212" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1593896566721" />
+    <state width="1238" height="212" key="GridCell.Tab.0.right" timestamp="1593896566722">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1593895818197" />
+    <state width="1238" height="212" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1593896566722" />
     <state width="1238" height="263" key="GridCell.Tab.1.bottom" timestamp="1593889106165">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

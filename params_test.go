@@ -61,9 +61,7 @@ func BenchmarkRouter_GET(b *testing.B) {
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
 	benchRequest(b, router, r)
 }
-
 func benchHandler(_ http.ResponseWriter, _ *http.Request, _ Params) {}
-
 func benchRequest(b *testing.B, router http.Handler, r *http.Request) {
 	w := new(testingResponseWriter)
 	u := r.URL
