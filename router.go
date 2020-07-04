@@ -5,26 +5,30 @@ import (
 	"regexp"
 )
 
-const GET = http.MethodGet
-const POST = http.MethodPost
-const DELETE = http.MethodDelete
-const PUT = http.MethodPut
+//
+//const GET = http.MethodGet
+//const POST = http.MethodPost
+//const DELETE = http.MethodDelete
+//const PUT = http.MethodPut
 
 // Handle is a function that can be registered to a route to handle HTTP
 type Handle func(http.ResponseWriter, *http.Request, Params)
 
 type route struct {
-	RegexPath        string
-	RealPath         string
-	Method           string
-	Handle           Handle
+	RegexPath string
+	RealPath  string
+	Method    string
+	Handle    Handle
+	//NamedParameters []struct {
+	//	Index int
+	//	Name  string
+	//}
 	IsNamedParameter bool
 }
 
 // Router serves http
 type Router struct {
 	handlers []route
-	//SlashMode bool
 }
 
 // NewRouter creates instance of Router
@@ -51,22 +55,22 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 // GET sets get handle
 func (r *Router) GET(path string, handle Handle) {
-	r.addRoute(GET, path, handle)
+	r.addRoute(http.MethodGet, path, handle)
 }
 
 // POST sets post handle
 func (r *Router) POST(path string, handle Handle) {
-	r.addRoute(POST, path, handle)
+	r.addRoute(http.MethodPost, path, handle)
 }
 
 // DELETE sets delete handle
 func (r *Router) DELETE(path string, handle Handle) {
-	r.addRoute(DELETE, path, handle)
+	r.addRoute(http.MethodDelete, path, handle)
 }
 
 // PUT sets put handle
 func (r *Router) PUT(path string, handle Handle) {
-	r.addRoute(PUT, path, handle)
+	r.addRoute(http.MethodPut, path, handle)
 }
 
 // add route to our routes

@@ -1,17 +1,17 @@
-package dimaggioRouter_test
+package dimaggioRouter
 
 import (
-	dimaggioRouter "github.com/sagadsalem/dimaggio-router"
+	//dimaggioRouter "github.com/sagadsalem/dimaggio-router"
 	"net/http"
 	"testing"
 )
 
 func TestParams_GetByName(t *testing.T) {
-	params := dimaggioRouter.Params{
-		dimaggioRouter.Param{Key: "id", Value: "2"},
-		dimaggioRouter.Param{Key: "name", Value: "sagad"},
-		dimaggioRouter.Param{Key: "age", Value: "23"},
-		dimaggioRouter.Param{Key: "type", Value: "ball"},
+	params := Params{
+		Param{Key: "id", Value: "2"},
+		Param{Key: "name", Value: "sagad"},
+		Param{Key: "age", Value: "23"},
+		Param{Key: "type", Value: "ball"},
 	}
 
 	for i, _ := range params {
@@ -22,11 +22,11 @@ func TestParams_GetByName(t *testing.T) {
 }
 
 func TestParams_GetByIndex(t *testing.T) {
-	params := dimaggioRouter.Params{
-		dimaggioRouter.Param{Key: "id", Value: "2"},
-		dimaggioRouter.Param{Key: "name", Value: "sagad"},
-		dimaggioRouter.Param{Key: "age", Value: "23"},
-		dimaggioRouter.Param{Key: "type", Value: "ball"},
+	params := Params{
+		Param{Key: "id", Value: "2"},
+		Param{Key: "name", Value: "sagad"},
+		Param{Key: "age", Value: "23"},
+		Param{Key: "type", Value: "ball"},
 	}
 
 	for i, _ := range params {
@@ -37,10 +37,10 @@ func TestParams_GetByIndex(t *testing.T) {
 }
 
 func TestParams_GetQuery(t *testing.T) {
-	router := dimaggioRouter.New()
+	router := New()
 	wantKey := "name"
 	var value string
-	router.GET("/querystring", func(w http.ResponseWriter, r *http.Request, dp dimaggioRouter.Params) {
+	router.GET("/querystring", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		name, err := dp.GetQuery(r, wantKey)
 		if err != nil {
 			t.Fatal(err.Error())
@@ -52,5 +52,30 @@ func TestParams_GetQuery(t *testing.T) {
 	router.ServeHTTP(w, r)
 	if value == "" {
 		t.Fatalf("missing the query string parameter %v", wantKey)
+	}
+}
+
+// benchmark testing
+func BenchmarkRouter_ServeHTTP(b *testing.B) {
+	router := New()
+	router.GET("/user/$name", benchHandler)
+	r, _ := http.NewRequest("GET", "/user/gordon", nil)
+	benchRequest(b, router, r)
+}
+
+func benchHandler(_ http.ResponseWriter, _ *http.Request, _ Params) {}
+
+func benchRequest(b *testing.B, router http.Handler, r *http.Request) {
+	w := new(testingResponseWriter)
+	u := r.URL
+	rq := u.RawQuery
+	r.RequestURI = u.RequestURI()
+
+	b.ReportAllocs()
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		u.RawQuery = rq
+		router.ServeHTTP(w, r)
 	}
 }

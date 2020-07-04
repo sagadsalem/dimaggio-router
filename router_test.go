@@ -1,7 +1,7 @@
-package dimaggioRouter_test
+package dimaggioRouter
 
 import (
-	dimaggioRouter "github.com/sagadsalem/dimaggio-router"
+	//dimaggioRouter "github.com/sagadsalem/dimaggio-router"
 	"net/http"
 	"reflect"
 	"testing"
@@ -17,11 +17,11 @@ func (trw *testingResponseWriter) WriteString(s string) (n int, err error) { ret
 func (trw *testingResponseWriter) WriteHeader(int)                         {}
 
 func TestNew(t *testing.T) {
-	router := dimaggioRouter.New()
+	router := New()
 	routed := false
-	router.GET("/user/$name", func(w http.ResponseWriter, r *http.Request, dp dimaggioRouter.Params) {
+	router.GET("/user/$name", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		routed = true
-		want := dimaggioRouter.Params{dimaggioRouter.Param{"name", "sagad"}}
+		want := Params{Param{"name", "sagad"}}
 		if !reflect.DeepEqual(dp, want) {
 			t.Fatalf("the values from params not matching values: want %v, got %v", want, dp)
 		}
@@ -40,9 +40,9 @@ func TestNew(t *testing.T) {
 }
 
 func TestRouter_DELETE(t *testing.T) {
-	router := dimaggioRouter.New()
+	router := New()
 	d := false
-	router.DELETE("/delete", func(w http.ResponseWriter, r *http.Request, dp dimaggioRouter.Params) {
+	router.DELETE("/delete", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		d = true
 	})
 
@@ -55,9 +55,9 @@ func TestRouter_DELETE(t *testing.T) {
 }
 
 func TestRouter_GET(t *testing.T) {
-	router := dimaggioRouter.New()
+	router := New()
 	g := false
-	router.GET("/get", func(w http.ResponseWriter, r *http.Request, dp dimaggioRouter.Params) {
+	router.GET("/get", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		g = true
 	})
 
@@ -70,9 +70,9 @@ func TestRouter_GET(t *testing.T) {
 }
 
 func TestRouter_POST(t *testing.T) {
-	router := dimaggioRouter.New()
+	router := New()
 	p := false
-	router.POST("/post", func(w http.ResponseWriter, r *http.Request, dp dimaggioRouter.Params) {
+	router.POST("/post", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		p = true
 	})
 
@@ -85,9 +85,9 @@ func TestRouter_POST(t *testing.T) {
 }
 
 func TestRouter_PUT(t *testing.T) {
-	router := dimaggioRouter.New()
+	router := New()
 	p := false
-	router.PUT("/put", func(w http.ResponseWriter, r *http.Request, dp dimaggioRouter.Params) {
+	router.PUT("/put", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		p = true
 	})
 

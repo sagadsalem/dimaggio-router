@@ -17,12 +17,10 @@ func addRoute(method string, path string, handle Handle) route {
 }
 
 func routePath(path string) (string, bool) {
-	p := ""
 	var isNamedParameter = false
 	var s []string
 
-	components := strings.Split(path, "/")[1:]
-	for _, c := range components {
+	for _, c := range strings.Split(path, "/")[1:] {
 		if strings.Contains(c, "$") {
 			s = append(s, fmt.Sprint("/[a-zA-Z0-9]"))
 			isNamedParameter = true
@@ -30,16 +28,14 @@ func routePath(path string) (string, bool) {
 			s = append(s, fmt.Sprintf("/%v", c))
 		}
 	}
-	p = strings.Join(s, "+") + "+$"
-	return p, isNamedParameter
+	return strings.Join(s, "+") + "+$", isNamedParameter
 }
 
 func routeParams(route route, url string) Params {
 	if route.IsNamedParameter == true {
 		var params Params
-		realComponents := strings.Split(route.RealPath, "/")[1:]
 		urlComponents := strings.Split(url, "/")[1:]
-		for index, c := range realComponents {
+		for index, c := range strings.Split(route.RealPath, "/")[1:] {
 			if strings.Contains(c, "$") {
 				params = append(params, Param{
 					Key:   strings.Replace(c, "$", "", -1), // without the $ sign
