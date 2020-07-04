@@ -4,6 +4,7 @@
     <list default="true" id="bdb28f95-74d4-4b50-a043-79c5de038764" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helper.go" beforeDir="false" afterPath="$PROJECT_DIR$/helper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.go" beforeDir="false" afterPath="$PROJECT_DIR$/params.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/params_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/params_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/router_test.go" afterDir="false" />
@@ -49,7 +50,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.BenchmarkRouter_ServeHTTP in github.com/sagadsalem/dimaggio-router">
+  <component name="RunManager" selected="Go Test.BenchmarkRouter_GET in github.com/sagadsalem/dimaggio-router">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="dimaggio-router" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -71,6 +72,17 @@
       <pattern value="^BenchmarkHttpRouter_Param$" />
       <method v="2" />
     </configuration>
+    <configuration name="BenchmarkRouter_GET in github.com/sagadsalem/dimaggio-router" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="dimaggio-router" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gobench" />
+      <kind value="PACKAGE" />
+      <package value="github.com/sagadsalem/dimaggio-router" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^BenchmarkRouter_GET$" />
+      <method v="2" />
+    </configuration>
     <configuration name="BenchmarkRouter_ServeHTTP in github.com/sagadsalem/dimaggio-router" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="dimaggio-router" />
       <working_directory value="$PROJECT_DIR$" />
@@ -80,17 +92,6 @@
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
       <pattern value="^BenchmarkRouter_ServeHTTP$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestParams_GetByIndex in github.com/sagadsalem/dimaggio-router" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="dimaggio-router" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/sagadsalem/dimaggio-router" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestParams_GetByIndex$" />
       <method v="2" />
     </configuration>
     <configuration name="TestParams_GetByName in github.com/sagadsalem/dimaggio-router" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -128,11 +129,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.BenchmarkRouter_GET in github.com/sagadsalem/dimaggio-router" />
         <item itemvalue="Go Test.BenchmarkRouter_ServeHTTP in github.com/sagadsalem/dimaggio-router" />
+        <item itemvalue="Go Test.TestParams_GetByName in github.com/sagadsalem/dimaggio-router" />
         <item itemvalue="Go Test.BenchmarkHttpRouter_Param in github.com/sagadsalem/dimaggio-router" />
         <item itemvalue="Go Test.TestParams_GetQuery in github.com/sagadsalem/dimaggio-router" />
-        <item itemvalue="Go Test.TestParams_GetByIndex in github.com/sagadsalem/dimaggio-router" />
-        <item itemvalue="Go Test.TestParams_GetByName in github.com/sagadsalem/dimaggio-router" />
       </list>
     </recent_temporary>
   </component>
@@ -176,22 +177,22 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="335" y="34" key="#go_test_github.com/sagadsalem/dimaggio-router/0.0.1280.800@0.0.1280.800" timestamp="1593787549981" />
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom" timestamp="1593889302008">
+    <state width="1238" height="212" key="GridCell.Tab.0.bottom" timestamp="1593895818197">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1593889302008" />
-    <state width="1238" height="212" key="GridCell.Tab.0.center" timestamp="1593889302007">
+    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1593895818197" />
+    <state width="1238" height="212" key="GridCell.Tab.0.center" timestamp="1593895818196">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1593889302007" />
-    <state width="1238" height="212" key="GridCell.Tab.0.left" timestamp="1593889302006">
+    <state width="1238" height="212" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1593895818196" />
+    <state width="1238" height="212" key="GridCell.Tab.0.left" timestamp="1593895818196">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1593889302006" />
-    <state width="1238" height="212" key="GridCell.Tab.0.right" timestamp="1593889302008">
+    <state width="1238" height="212" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1593895818196" />
+    <state width="1238" height="212" key="GridCell.Tab.0.right" timestamp="1593895818197">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1593889302008" />
+    <state width="1238" height="212" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1593895818197" />
     <state width="1238" height="263" key="GridCell.Tab.1.bottom" timestamp="1593889106165">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

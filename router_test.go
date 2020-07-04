@@ -1,7 +1,6 @@
 package dimaggioRouter
 
 import (
-	//dimaggioRouter "github.com/sagadsalem/dimaggio-router"
 	"net/http"
 	"reflect"
 	"testing"
@@ -19,19 +18,21 @@ func (trw *testingResponseWriter) WriteHeader(int)                         {}
 func TestNew(t *testing.T) {
 	router := New()
 	routed := false
+
 	router.GET("/user/$name", func(w http.ResponseWriter, r *http.Request, dp Params) {
 		routed = true
-		want := Params{Param{"name", "sagad"}}
+		want := Params{Param{1, "name", "sagad"}}
 		if !reflect.DeepEqual(dp, want) {
 			t.Fatalf("the values from params not matching values: want %v, got %v", want, dp)
 		}
 	})
-	w := new(testingResponseWriter)
 
+	w := new(testingResponseWriter)
 	req, err := http.NewRequest(http.MethodGet, "/user/sagad", nil)
 	if err != nil {
 		t.Fatal(err.Error())
 	}
+
 	router.ServeHTTP(w, req)
 
 	if !routed {

@@ -1,7 +1,6 @@
 package dimaggioRouter
 
 import (
-	//dimaggioRouter "github.com/sagadsalem/dimaggio-router"
 	"net/http"
 	"testing"
 )
@@ -56,7 +55,7 @@ func TestParams_GetQuery(t *testing.T) {
 }
 
 // benchmark testing
-func BenchmarkRouter_ServeHTTP(b *testing.B) {
+func BenchmarkRouter_GET(b *testing.B) {
 	router := New()
 	router.GET("/user/$name", benchHandler)
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
