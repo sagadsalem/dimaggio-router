@@ -44,10 +44,10 @@ func (ps Params) GetQuery(req *http.Request, name string) (string, error) {
 	return values[0], nil
 }
 
-func (r *route) getParams(url string) {
-	requestURL := strings.Split(url, "/")[1:]
-	for i, c := range r.Params {
-		r.Params[i].Value = requestURL[c.Index]
+func (n *node) getParams(url string) {
+	var requestURL = strings.Split(url, "/")[1:]
+	for i, c := range n.Params {
+		n.Params[i].Value = requestURL[c.Index]
 	}
+	requestURL = nil
 }
-

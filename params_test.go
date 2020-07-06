@@ -6,12 +6,12 @@ import (
 	"testing"
 )
 
-func TestParams_GetByName(t *testing.T) {
+func TestGetByName(t *testing.T) {
 	params := Params{
 		Param{Key: "id", Value: "2"},
 		Param{Key: "name", Value: "sagad"},
 		Param{Key: "age", Value: "23"},
-		Param{Key: "type", Value: "ball"},
+		Param{Key: "type", Value: "football"},
 	}
 
 	for i, _ := range params {
@@ -21,7 +21,7 @@ func TestParams_GetByName(t *testing.T) {
 	}
 }
 
-func TestParams_GetByIndex(t *testing.T) {
+func TestGetByIndex(t *testing.T) {
 	params := Params{
 		Param{Key: "id", Value: "2"},
 		Param{Key: "name", Value: "sagad"},
@@ -36,7 +36,7 @@ func TestParams_GetByIndex(t *testing.T) {
 	}
 }
 
-func TestParams_GetQuery(t *testing.T) {
+func TestGetQuery(t *testing.T) {
 	router := New()
 	wantKey := "name"
 	var value string
@@ -47,6 +47,7 @@ func TestParams_GetQuery(t *testing.T) {
 		}
 		value = name
 	})
+
 	rec := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodGet, "/querystring?name=ali", nil)
 	router.ServeHTTP(rec, r)
@@ -56,7 +57,7 @@ func TestParams_GetQuery(t *testing.T) {
 }
 
 // benchmark testing
-func BenchmarkRouter_GET(b *testing.B) {
+func BenchmarkGET(b *testing.B) {
 	router := New()
 	router.GET("/user/$name", benchHandler)
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
@@ -77,3 +78,5 @@ func benchRequest(b *testing.B, router http.Handler, r *http.Request) {
 		router.ServeHTTP(rec, r)
 	}
 }
+
+type Time struct{ sec int64     nsec int32     loc  *Location }

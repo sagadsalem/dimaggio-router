@@ -10,37 +10,36 @@ import (
 // Handle is a function that can be registered to a route to handle HTTP
 type Handle func(http.ResponseWriter, *http.Request, Params)
 
-type route struct {
+type node struct {
 	RegexPath string
 	RealPath  string
-	Method    string
 	Handle    Handle
-	Params    []Param
+	Params    Params
 }
 
 // Router serves http
 type router struct {
-	routes []route
+	routes map[string][]node
+
+	//routes  []route
 }
 
 // NewRouter creates instance of Router
 func New() *router {
-	return &router{}
+	return &router{routes: make(map[string][]node)}
 }
 
 // ServeHTTP is called for every connection
 func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	for _, route := range r.routes {
-		if req.Method == route.Method {
-			matched, _ := regexp.MatchString(route.RegexPath, req.URL.Path)
-			if matched {
-				if len(route.Params) > 0 {
-					route.getParams(req.URL.Path)
-				}
-
-				route.Handle(w, req, route.Params)
-				return
+	for _, node := range r.routes[req.Method] {
+		matched, _ := regexp.MatchString(node.RegexPath, req.URL.Path)
+		if matched {
+			if len(node.Params) > 0 {
+				node.getParams(req.URL.Path)
 			}
+
+			node.Handle(w, req, node.Params)
+			return
 		}
 	}
 	http.NotFound(w, req)
@@ -69,11 +68,10 @@ func (r *router) PUT(path string, handle Handle) {
 
 // add route to our routes
 func (r *router) addRoute(method, path string, handle Handle) {
-	p, n := generateRegexAndParams(path)
-	r.routes = append(r.routes, route{RegexPath: p, RealPath: path, Method: method, Handle: handle, Params: n})
+	r.routes[method] = append(r.routes[method], generateRoute(path, handle))
 }
 
-func generateRegexAndParams(path string) (string, Params) {
+func generateRoute(path string, handle Handle) node {
 	var s []string
 	var p Params
 
@@ -88,5 +86,10 @@ func generateRegexAndParams(path string) (string, Params) {
 			s = append(s, fmt.Sprintf("/%v", c))
 		}
 	}
-	return fmt.Sprintf("%v+$", strings.Join(s, "+")), p
+	return node{
+		RegexPath: fmt.Sprintf("%v+$", strings.Join(s, "+")),
+		RealPath:  path,
+		Handle:    handle,
+		Params:    p,
+	}
 }

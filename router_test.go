@@ -56,7 +56,7 @@ func TestNew(t *testing.T) {
 	}
 }
 
-func TestRouter_DELETE(t *testing.T) {
+func TestDELETE(t *testing.T) {
 	// init the router
 	router := New()
 	router.DELETE("/delete", func(w http.ResponseWriter, r *http.Request, dp Params) {
@@ -95,7 +95,7 @@ func TestRouter_DELETE(t *testing.T) {
 	}
 }
 
-func TestRouter_GET(t *testing.T) {
+func TestGET(t *testing.T) {
 	// init the router
 	router := New()
 	router.GET("/get", func(w http.ResponseWriter, r *http.Request, dp Params) {
@@ -134,7 +134,7 @@ func TestRouter_GET(t *testing.T) {
 	}
 }
 
-func TestRouter_POST(t *testing.T) {
+func TestPOST(t *testing.T) {
 	// init the router
 	router := New()
 	router.POST("/post", func(w http.ResponseWriter, r *http.Request, dp Params) {
@@ -174,7 +174,7 @@ func TestRouter_POST(t *testing.T) {
 	}
 }
 
-func TestRouter_PUT(t *testing.T) {
+func TestPUT(t *testing.T) {
 	// init the router
 	router := New()
 	router.PUT("/put", func(w http.ResponseWriter, r *http.Request, dp Params) {
