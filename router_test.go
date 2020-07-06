@@ -1,101 +1,215 @@
 package dimaggioRouter
 
 import (
+	"io/ioutil"
+	"log"
 	"net/http"
+	"net/http/httptest"
 	"reflect"
+	"strings"
 	"testing"
 )
 
-// my testingResponseWriter that implement the ResponseWriter interface
-type testingResponseWriter struct{}
-
-// this for implementing ResponseWriter interface to use it in the Testing Router
-func (trw *testingResponseWriter) Header() (h http.Header)                 { return http.Header{} }
-func (trw *testingResponseWriter) Write(p []byte) (n int, err error)       { return len(p), nil }
-func (trw *testingResponseWriter) WriteString(s string) (n int, err error) { return len(s), nil }
-func (trw *testingResponseWriter) WriteHeader(int)                         {}
-
 func TestNew(t *testing.T) {
 	router := New()
-	routed := false
-
 	router.GET("/user/$name", func(w http.ResponseWriter, r *http.Request, dp Params) {
-		routed = true
 		want := Params{Param{1, "name", "sagad"}}
 		if !reflect.DeepEqual(dp, want) {
 			t.Fatalf("the values from params not matching values: want %v, got %v", want, dp)
 		}
+		w.WriteHeader(http.StatusOK)
+		if _, err := w.Write([]byte("checked")); err != nil {
+			t.Fatalf(err.Error())
+		}
 	})
 
-	w := new(testingResponseWriter)
+	rec := httptest.NewRecorder()
 	req, err := http.NewRequest(http.MethodGet, "/user/sagad", nil)
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 
-	router.ServeHTTP(w, req)
+	//routing...
+	router.ServeHTTP(rec, req)
 
-	if !routed {
-		t.Fatal("routing failed in the matching phase!")
+	// get result
+	resp := rec.Result()
+	defer resp.Body.Close()
+
+	// check response status
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("excpected status OK; got %v", resp.StatusCode)
+	}
+
+	// read the result body
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// convert to string remove all white spaces
+	bodyString := strings.TrimSpace(string(bodyBytes))
+
+	// check if body equals to checked
+	if bodyString != "checked" {
+		t.Fatalf("excpected response of checked; got %v", bodyString)
 	}
 }
 
 func TestRouter_DELETE(t *testing.T) {
+	// init the router
 	router := New()
-	d := false
 	router.DELETE("/delete", func(w http.ResponseWriter, r *http.Request, dp Params) {
-		d = true
+		if _, err := w.Write([]byte("delete")); err != nil {
+			t.Fatal(err.Error())
+		}
 	})
 
-	w := new(testingResponseWriter)
+	// create recorder and request
+	rec := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodDelete, "/delete", nil)
-	router.ServeHTTP(w, r)
-	if !d {
-		t.Error("delete method failed")
+
+	// routing...
+	router.ServeHTTP(rec, r)
+
+	// get result
+	resp := rec.Result()
+	defer resp.Body.Close()
+
+	// check response status
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("excpected status OK; got %v", resp.StatusCode)
+	}
+	// read the result body
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// convert to string remove all white spaces
+	bodyString := strings.TrimSpace(string(bodyBytes))
+
+	// check if body equals to delete
+	if bodyString != "delete" {
+		t.Fatalf("excpected response of delete; got %v", bodyString)
 	}
 }
 
 func TestRouter_GET(t *testing.T) {
+	// init the router
 	router := New()
-	g := false
 	router.GET("/get", func(w http.ResponseWriter, r *http.Request, dp Params) {
-		g = true
+		if _, err := w.Write([]byte("get")); err != nil {
+			t.Fatal(err.Error())
+		}
 	})
 
-	w := new(testingResponseWriter)
+	// create recorder and request
+	rec := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodGet, "/get", nil)
-	router.ServeHTTP(w, r)
-	if !g {
-		t.Error("get method failed")
+
+	// routing...
+	router.ServeHTTP(rec, r)
+
+	// get result
+	resp := rec.Result()
+	defer resp.Body.Close()
+
+	// check response status
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("excpected status OK; got %v", resp.StatusCode)
+	}
+	// read the result body
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// convert to string remove all white spaces
+	bodyString := strings.TrimSpace(string(bodyBytes))
+
+	// check if body equals to get
+	if bodyString != "get" {
+		t.Fatalf("excpected response of get; got %v", bodyString)
 	}
 }
 
 func TestRouter_POST(t *testing.T) {
+	// init the router
 	router := New()
-	p := false
 	router.POST("/post", func(w http.ResponseWriter, r *http.Request, dp Params) {
-		p = true
+		if _, err := w.Write([]byte("post")); err != nil {
+			t.Fatal(err.Error())
+		}
 	})
 
-	w := new(testingResponseWriter)
+	// create recorder and request
+	rec := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodPost, "/post", nil)
-	router.ServeHTTP(w, r)
-	if !p {
-		t.Error("get method failed")
+
+	// routing...
+	router.ServeHTTP(rec, r)
+
+	// get result
+	resp := rec.Result()
+	defer resp.Body.Close()
+
+	// check response status
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("excpected status OK; got %v", resp.StatusCode)
+	}
+
+	// read the result body
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// convert to string remove all white spaces
+	bodyString := strings.TrimSpace(string(bodyBytes))
+
+	// check if body equals to post
+	if bodyString != "post" {
+		t.Fatalf("excpected response of post; got %v", bodyString)
 	}
 }
 
 func TestRouter_PUT(t *testing.T) {
+	// init the router
 	router := New()
-	p := false
 	router.PUT("/put", func(w http.ResponseWriter, r *http.Request, dp Params) {
-		p = true
+		if _, err := w.Write([]byte("put")); err != nil {
+			t.Fatal(err.Error())
+		}
 	})
 
-	w := new(testingResponseWriter)
+	// create recorder and request
+	rec := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodPut, "/put", nil)
-	router.ServeHTTP(w, r)
-	if !p {
-		t.Error("put method failed")
+
+	// routing...
+	router.ServeHTTP(rec, r)
+
+	// get result
+	resp := rec.Result()
+	defer resp.Body.Close()
+
+	// check response status
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("excpected status OK; got %v", resp.StatusCode)
+	}
+
+	// read the result body
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// convert to string remove all white spaces
+	bodyString := strings.TrimSpace(string(bodyBytes))
+
+	// check if body equals to put
+	if bodyString != "put" {
+		t.Fatalf("excpected response of put; got %v", bodyString)
 	}
 }

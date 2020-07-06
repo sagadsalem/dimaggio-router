@@ -2,6 +2,7 @@ package dimaggioRouter
 
 import (
 	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -46,9 +47,9 @@ func TestParams_GetQuery(t *testing.T) {
 		}
 		value = name
 	})
-	w := new(testingResponseWriter)
+	rec := httptest.NewRecorder()
 	r, _ := http.NewRequest(http.MethodGet, "/querystring?name=ali", nil)
-	router.ServeHTTP(w, r)
+	router.ServeHTTP(rec, r)
 	if value == "" {
 		t.Fatalf("missing the query string parameter %v", wantKey)
 	}
@@ -63,7 +64,7 @@ func BenchmarkRouter_GET(b *testing.B) {
 }
 func benchHandler(_ http.ResponseWriter, _ *http.Request, _ Params) {}
 func benchRequest(b *testing.B, router http.Handler, r *http.Request) {
-	w := new(testingResponseWriter)
+	rec := httptest.NewRecorder()
 	u := r.URL
 	rq := u.RawQuery
 	r.RequestURI = u.RequestURI()
@@ -73,6 +74,6 @@ func benchRequest(b *testing.B, router http.Handler, r *http.Request) {
 
 	for i := 0; i < b.N; i++ {
 		u.RawQuery = rq
-		router.ServeHTTP(w, r)
+		router.ServeHTTP(rec, r)
 	}
 }
