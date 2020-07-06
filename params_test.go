@@ -78,5 +78,3 @@ func benchRequest(b *testing.B, router http.Handler, r *http.Request) {
 		router.ServeHTTP(rec, r)
 	}
 }
-
-type Time struct{ sec int64     nsec int32     loc  *Location }
