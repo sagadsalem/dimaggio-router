@@ -3,15 +3,17 @@ package dimaggioRouter
 import (
 	"fmt"
 	"net/http"
+	"strings"
 )
 
-// Param is a single URL parameter, consisting of a key and a value.
+// Param is a single URL parameter, consisting of a key and a value and an index
 type Param struct {
+	Index int
 	Key   string
 	Value string
 }
 
-// Params is a Param-slice, as returned by the router.
+// Params is a Param-slice
 type Params []Param
 
 func (ps Params) GetByName(name string) (string, error) {
@@ -41,3 +43,11 @@ func (ps Params) GetQuery(req *http.Request, name string) (string, error) {
 
 	return values[0], nil
 }
+
+func (r *route) getParams(url string) {
+	requestURL := strings.Split(url, "/")[1:]
+	for i, c := range r.Params {
+		r.Params[i].Value = requestURL[c.Index]
+	}
+}
+
