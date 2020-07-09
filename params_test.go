@@ -60,7 +60,7 @@ func TestGetQuery(t *testing.T) {
 func BenchmarkGET(b *testing.B) {
 	router := New()
 	router.GET("/user/$name", benchHandler)
-	r, _ := http.NewRequest("GET", "/user/gordon", nil)
+	r, _ := http.NewRequest("GET", "/user/sagad", nil)
 	benchRequest(b, router, r)
 }
 func benchHandler(_ http.ResponseWriter, _ *http.Request, _ Params) {}
